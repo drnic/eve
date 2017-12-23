@@ -41,3 +41,34 @@ Internally, the "Apply Changes" button would convert the form values into a `go-
 ```
 
 This file would be saved to a Git repository, rather than a database. In turn, it is a assumed that CI system will be watching the Git repository, see the new Git commit, and re-deploy the target system.
+
+## Mapping File
+
+This application will be responsible for (optionally) generating the web HTML, consuming the HTML form, generating the `go-patch` file, `git commit` to a local Git repository and performing a `git push`.
+
+Therefore we need a standard for describing the HTML form and its mapping to a resulting `go-patch` file. The `go-patch` file will be specific to the resulting YAML files upon which it will be merged/applied.
+
+For example, the following operation is specific to a Concourse CI BOSH deployment manifest:
+
+```yaml
+- type: replace
+  path: /instance_groups/name=worker/instances
+  value: ((worker-linux-instances))
+```
+
+The same UI for a Concourse deployment that is backed by Kubernetes will require a different `go-patch` operator file since the Kubernetes YAML deployment file has a different schema.
+
+### Pivotal Product Templates
+
+One consideration for a mapping file could be Pivotal's Product Template metadata files ([spec](https://docs.pivotal.io/tiledev/2-0/product-template-reference.html)).
+
+They are made up of:
+
+* [Forms](https://docs.pivotal.io/tiledev/2-0/product-template-reference.html#form-properties) - collections of UI elements shown on different tabs (and thus each are saved together as a 'form').
+* [Property Blueprints](https://docs.pivotal.io/tiledev/2-0/product-template-reference.html#property-blueprints) - the mapping of form UI to data types and snippets of YAML for the resulting `bosh deploy`
+* [Configurable Properties](https://docs.pivotal.io/tiledev/2-0/product-template-reference.html#configurable-props) - form element types (string, integer, etc) that include pre-defined validations for the web UI
+* [Job Types](https://docs.pivotal.io/tiledev/2-0/product-template-reference.html#job-types) - the different VMs that make up the resulting running system
+
+In our problem space, the Job Types are replaced by the `go-patch` operator file. We are assuming that Job Types (called Instance Groups in BOSH for example), are defined elsewhere. Our responsibility is to create an Operator file that will successfully merge with that base YAML file.
+
+Pivotal's implementation of Product Templates, commercially known as Ops Manager and called `tempest` within the Ops Manager VM, is written as a Ruby on Rails web app and is proprietary to Pivotal.
