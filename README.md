@@ -8,6 +8,7 @@ By creating/changing a file in a Git repository, the operators of the system hav
 
 By using the the `go-patch-web-ui` system, we allow decoupling of a bespoke Web UI from the backend system that performs the deployment.
 
+The decoupled nature of the wrapper Web UI and the backend deployment system (BOSH, Kubernetes, Cloud Foundry) may make it difficult to provide "state of deployment" feedback to the Web UI user.
 
 ## Scenario
 
@@ -105,7 +106,7 @@ Perhaps this tool could even ignore that Git layer. But my guess is bespoke Web 
 
 The wrapper web app will receive the form POST to `/update-deployment` and contain form fields `workers-linux-instances` and `workers-linux-instance-type`. It will then pass these to the `go-patch-web-ui` CLI to generate the Operator file (given a mapping file):
 
-```
+```bash
 go-patch-web-ui \
   --mapping path/to/mapping.yml \
   --inputs '{"workers-linux-instances": 5, "workers-linux-instance-type": "m4.xlarge"}' \
