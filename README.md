@@ -124,3 +124,11 @@ This will create a file at `path/to/ui.yml` similar to the following (dependent 
   path: /instance_groups/name=worker/vm_type
   value: m4.xlarge
 ```
+
+## Plan
+
+Build a nice Web UI app as a wrapper for an existing deployment (or multiple deployments). Figure out where `go-patch-web-ui` would be hooked in to post changes.
+
+Figure out how `go-patch-web-ui` is hooked in to fetch current values.
+
+Get `go-patch-web-ui` to do the thing its supposed to do to trigger a deployment.
