@@ -78,3 +78,9 @@ Pivotal's implementation of Product Templates, commercially known as Ops Manager
 There is this thing called HTML, with bells and whistles like JavaScript and CSS, that is pretty handy for describing forms that appear in web browsers. Since supporting BYO HTML forms is in scope, perhaps we just start with it and worry about fancy generation of Forms + Property Blueprints + Configurable Properties later (or never). Let the author of the Web UI provide their own HTML + Javascript (for validations).
 
 In this scenario, what exactly is `go-patch-web-ui`? Perhaps its not actually the Web UI. Perhaps its just a CLI that converts the incoming HTML form into an Operator file performs the `git` commands. Perhaps it is packaged as a Cloud Foundry buildpack to make the CLI available to the wrapper web app; or manually packaged by the wrapper web app in a Docker image.
+
+## KISS
+
+We would also just focus on an the HTML form design and its mapping to a generated Operator file as the primary problem being solved. Web UI is solved by dozens of web frameworks. Triggering of deployments to BOSH/Kubernetes/Cloud Foundry is solved by CI systems watching Git repos. This tool would solve the UI -> Operator file problem.
+
+Perhaps this tool could even ignore that Git layer. But my guess is bespoke Web apps would just rewrite the same `git pull; git commit -a -m "user change"; git push` code over and over. So it might as well be implemented by the tool. Perhaps make it optional so end users can choose a different system for delivering the Operator file to their backend deployment system.
