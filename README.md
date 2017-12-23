@@ -72,3 +72,9 @@ They are made up of:
 In our problem space, the Job Types are replaced by the `go-patch` operator file. We are assuming that Job Types (called Instance Groups in BOSH for example), are defined elsewhere. Our responsibility is to create an Operator file that will successfully merge with that base YAML file.
 
 Pivotal's implementation of Product Templates, commercially known as Ops Manager and called `tempest` within the Ops Manager VM, is written as a Ruby on Rails web app and is proprietary to Pivotal.
+
+### BYO HTML + JavaScript validations
+
+There is this thing called HTML, with bells and whistles like JavaScript and CSS, that is pretty handy for describing forms that appear in web browsers. Since supporting BYO HTML forms is in scope, perhaps we just start with it and worry about fancy generation of Forms + Property Blueprints + Configurable Properties later (or never). Let the author of the Web UI provide their own HTML + Javascript (for validations).
+
+In this scenario, what exactly is `go-patch-web-ui`? Perhaps its not actually the Web UI. Perhaps its just a CLI that converts the incoming HTML form into an Operator file performs the `git` commands. Perhaps it is packaged as a Cloud Foundry buildpack to make the CLI available to the wrapper web app; or manually packaged by the wrapper web app in a Docker image.
