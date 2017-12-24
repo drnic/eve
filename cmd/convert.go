@@ -3,8 +3,8 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/cloudfoundry-community/eve/mapping"
-	"github.com/cloudfoundry-community/eve/operator"
+	"github.com/starkandwayne/eve/mapping"
+	"github.com/starkandwayne/eve/operator"
 )
 
 // ConvertOpts represents the 'convert' command

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	evecmd "github.com/cloudfoundry-community/eve/cmd"
 	"github.com/jessevdk/go-flags"
+	evecmd "github.com/starkandwayne/eve/cmd"
 )
 
 var Version = ""

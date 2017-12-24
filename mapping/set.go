@@ -3,7 +3,7 @@ package mapping
 import (
 	"io/ioutil"
 
-	"github.com/cloudfoundry-community/eve/operator"
+	"github.com/starkandwayne/eve/operator"
 
 	"gopkg.in/yaml.v2"
 )
