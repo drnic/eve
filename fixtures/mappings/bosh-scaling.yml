@@ -1,0 +1,6 @@
+mappings:
+- name: workers-linux-instances
+  path: /instance_groups/name=worker/instances
+
+- name: workers-linux-instance-type
+  path: /instance_groups/name=worker/vm_type
