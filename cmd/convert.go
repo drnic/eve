@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/cloudfoundry-community/eve/mapping"
+	"github.com/cloudfoundry-community/eve/operator"
 )
 
 // ConvertOpts represents the 'convert' command
@@ -22,5 +23,16 @@ func (c ConvertOpts) Execute(_ []string) (err error) {
 	if Opts.Debug {
 		fmt.Printf("Mapping Set: %#v\n", set)
 	}
+
+	inputs := mapping.NewInputsFromFlags(Opts.Inputs)
+
+	output := operator.NewOperatorOutput(Opts.Target)
+	set.GenerateOutput(inputs, output)
+	if Opts.Debug {
+		fmt.Printf("OperatorOutput: %#v\n", output)
+	}
+
+	fmt.Println(output)
+
 	return nil
 }

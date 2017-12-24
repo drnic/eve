@@ -3,6 +3,8 @@ package mapping
 import (
 	"io/ioutil"
 
+	"github.com/cloudfoundry-community/eve/operator"
+
 	"gopkg.in/yaml.v2"
 )
 
@@ -38,4 +40,12 @@ func NewMappingSet(path string) (set *Set, err error) {
 		return
 	}
 	return
+}
+
+// GenerateOutput applies Inputs to Set mapping to create operator.Output
+func (set *Set) GenerateOutput(inputs *Inputs, output *operator.Output) {
+	for _, mapping := range set.Mappings {
+		var value interface{} = inputs.ValueForFormName(mapping.FormName)
+		output.AddOperator(mapping.OperatorPath, value)
+	}
 }
