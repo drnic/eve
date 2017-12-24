@@ -1,12 +1,30 @@
 # Go Patch Web UI
 
+```bash
+$ eve convert \
+  -m fixtures/mappings/bosh-scaling.yml \
+  -i 'workers-linux-instances:5' \
+  -i 'workers-linux-instance-type:m4.xlarge'
+```
+
+Prints to stdout:
+
+```yaml
+- type: replace
+  path: /instance_groups/name=worker/instances
+  value: "5"
+- type: replace
+  path: /instance_groups/name=worker/vm_type
+  value: m4.xlarge
+```
+
 This repo is an initial experiment in generating a Web UI to allow lay people to modify a YAML-based deployment (e.g. Kubernetes, BOSH deploy, or BOSH env). They make changes, press "Apply", and eventually the deployment is modified.
 
 The intermediate stage after user changes in the UI is a BOSH operator file ([go-patch](https://github.com/cppforlife/go-patch)) which is subsequently applied to a `bosh deploy base.yml -o ui.yml` or `bosh create-env base.yml -o ui.yml` command which is triggered by a CI system. 
 
 By creating/changing a file in a Git repository, the operators of the system have an audit log of changes in the Git history. "Bob changed the instance count to 5", "Sue changed the instance count to 1".
 
-By using the the `go-patch-web-ui` system, we allow decoupling of a bespoke Web UI from the backend system that performs the deployment.
+By using the the `eve` system, we allow decoupling of a bespoke Web UI from the backend system that performs the deployment.
 
 The decoupled nature of the wrapper Web UI and the backend deployment system (BOSH, Kubernetes, Cloud Foundry) may make it difficult to provide "state of deployment" feedback to the Web UI user.
 
@@ -83,7 +101,7 @@ Pivotal's implementation of Product Templates, commercially known as Ops Manager
 
 There is this thing called HTML, with bells and whistles like JavaScript and CSS, that is pretty handy for describing forms that appear in web browsers. Since supporting BYO HTML forms is in scope, perhaps we just start with it and worry about fancy generation of Forms + Property Blueprints + Configurable Properties later (or never). Let the author of the Web UI provide their own HTML + Javascript (for validations).
 
-In this scenario, what exactly is `go-patch-web-ui`? Perhaps its not actually the Web UI. Perhaps its just a CLI that converts the incoming HTML form into an Operator file performs the `git` commands. Perhaps it is packaged as a Cloud Foundry buildpack to make the CLI available to the wrapper web app; or manually packaged by the wrapper web app in a Docker image.
+In this scenario, what exactly is `eve`? Perhaps its not actually the Web UI. Perhaps its just a CLI that converts the incoming HTML form into an Operator file performs the `git` commands. Perhaps it is packaged as a Cloud Foundry buildpack to make the CLI available to the wrapper web app; or manually packaged by the wrapper web app in a Docker image.
 
 ## KISS
 
@@ -104,10 +122,10 @@ Perhaps this tool could even ignore that Git layer. But my guess is bespoke Web 
 </form>
 ```
 
-The wrapper web app will receive the form POST to `/update-deployment` and contain form fields `workers-linux-instances` and `workers-linux-instance-type`. It will then pass these to the `go-patch-web-ui` CLI to generate the Operator file (given a mapping file):
+The wrapper web app will receive the form POST to `/update-deployment` and contain form fields `workers-linux-instances` and `workers-linux-instance-type`. It will then pass these to the `eve` CLI to generate the Operator file (given a mapping file):
 
 ```bash
-go-patch-web-ui \
+eve \
   --mapping path/to/mapping.yml \
   --inputs '{"workers-linux-instances": 5, "workers-linux-instance-type": "m4.xlarge"}' \
   --target path/to/ui.yml
@@ -137,8 +155,8 @@ This will create a file at `path/to/ui.yml` similar to the following (dependent 
 
 ## Plan
 
-Build a nice Web UI app as a wrapper for an existing deployment (or multiple deployments). Figure out where `go-patch-web-ui` would be hooked in to post changes.
+Build a nice Web UI app as a wrapper for an existing deployment (or multiple deployments). Figure out where `eve` would be hooked in to post changes.
 
-Figure out how `go-patch-web-ui` is hooked in to fetch current values.
+Figure out how `eve` is hooked in to fetch current values.
 
-Get `go-patch-web-ui` to do the thing its supposed to do to trigger a deployment.
+Get `eve` to do the thing its supposed to do to trigger a deployment.
