@@ -113,6 +113,15 @@ go-patch-web-ui \
   --target path/to/ui.yml
 ```
 
+Or perhaps
+
+```bash
+go run main.go convert \
+  -m fixtures/mappings/bosh-scaling.yml \
+  -t tmp/bosh-scaling.yml \
+  -i 'workers-linux-instances:5 workers-linux-instance-type:m4.xlarge'
+```
+
 This will create a file at `path/to/ui.yml` similar to the following (dependent upon the mapping in `path/to/mapping.yml`):
 
 ```yaml
