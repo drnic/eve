@@ -18,8 +18,8 @@ meta:
   aws:
     bucket:      eve-cli
     region_name: us-east-1
-    access_key:  ((aws-access-key))
-    secret_key:  ((aws-secret-key))
+    access_key:  ((aws-cfcommunity-access))
+    secret_key:  ((aws-cfcommunity-secret))
 
   github:
     owner:  starkandwayne
