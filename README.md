@@ -1,4 +1,6 @@
-# Go Patch Web UI
+# Eve
+
+Create your own lovel web UIs for YAML-based deployments, such as BOSH, Kubernetes, and Cloud Foundry.
 
 ```bash
 $ eve convert \
