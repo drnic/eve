@@ -28,6 +28,9 @@ By using the the `eve` system, we allow decoupling of a bespoke Web UI from the 
 
 The decoupled nature of the wrapper Web UI and the backend deployment system (BOSH, Kubernetes, Cloud Foundry) may make it difficult to provide "state of deployment" feedback to the Web UI user.
 
+* [CI pipeline](https://ci-ohio.starkandwayne.com/teams/cfcommunity/pipelines/eve)
+* [Issues](https://github.com/starkandwayne/eve/issues)
+
 ## Scenario
 
 Consider a Web UI for a Concourse CI deployment to allow scaling of workers:
