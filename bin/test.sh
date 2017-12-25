@@ -35,7 +35,8 @@ echo "> load values as YAML from existing operator file"
 values=$(go run main.go values --yaml \
   --mapping fixtures/bosh-scaling/mapping.yml \
   --target tmp/bosh-scaling-operator.yml)
-expected='{"workers-linux-instances": "5", "workers-linux-instance-type": "m4.xlarge"}'
+expected='workers-linux-instances: "5"
+workers-linux-instance-type: "m4.xlarge"'
 echo "$values"
 spruce diff <(echo "$expected") <(echo "$values")
 
