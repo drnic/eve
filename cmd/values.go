@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 
@@ -12,6 +13,7 @@ import (
 
 // ValuesOpts represents the 'values' command
 type ValuesOpts struct {
+	YAML bool `long:"yaml" description:"Return values in YAML, defaults to JSON"`
 }
 
 // Execute is callback from go-flags.Commander interface
@@ -32,9 +34,17 @@ func (c ValuesOpts) Execute(_ []string) (err error) {
 	if err != nil {
 		return
 	}
-	data, err := yaml.Marshal(values.ValuesByName)
-	if err != nil {
-		return
+	var data []byte
+	if c.YAML {
+		data, err = yaml.Marshal(values.ValuesByName)
+		if err != nil {
+			return
+		}
+	} else {
+		data, err = json.Marshal(values.ValuesByName)
+		if err != nil {
+			return
+		}
 	}
 	fmt.Println(string(data[:]))
 

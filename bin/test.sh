@@ -23,8 +23,16 @@ go run main.go convert \
 cat tmp/bosh-scaling-operator.yml
 echo
 
-echo "> load values from existing operator file"
+echo "> load values as JSON from existing operator file"
 values=$(go run main.go values \
+  --mapping fixtures/bosh-scaling/mapping.yml \
+  --target tmp/bosh-scaling-operator.yml)
+expected='{"workers-linux-instances": "5", "workers-linux-instance-type": "m4.xlarge"}'
+echo "$values"
+spruce diff <(echo "$expected") <(echo "$values")
+
+echo "> load values as YAML from existing operator file"
+values=$(go run main.go values --yaml \
   --mapping fixtures/bosh-scaling/mapping.yml \
   --target tmp/bosh-scaling-operator.yml)
 expected='{"workers-linux-instances": "5", "workers-linux-instance-type": "m4.xlarge"}'
