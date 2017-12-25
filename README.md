@@ -30,6 +30,19 @@ $ eve convert \
   --target tmp/bosh-scaling-operator.yml
 ```
 
+Your web UI can also fetch the current values from the same targeted file (to populate into form inputs as the initial value) using `eve values` command:
+
+```bash
+$ eve values \
+  --mapping fixtures/bosh-scaling/mapping.yml \
+  --target tmp/bosh-scaling-operator.yml
+```
+
+This will output the form names with their values in JSON:
+
+```json
+{"workers-linux-instances": "5", "workers-linux-instance-type": "m4.xlarge"}
+```
 
 This repo is an initial experiment in generating a Web UI to allow lay people to modify a YAML-based deployment (e.g. Kubernetes, BOSH deploy, or BOSH env). They make changes, press "Apply", and eventually the deployment is modified.
 
