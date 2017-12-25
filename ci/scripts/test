@@ -10,3 +10,5 @@ cd ${GOPATH}/src/${MODULE}
 go version; echo; echo
 go vet $(go list ./... | grep -v vendor)
 go test -v ./...
+
+[[ -x bin/test.sh ]] && { bin/test.sh; }
