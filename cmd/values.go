@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"os"
 
+	"gopkg.in/yaml.v2"
+
 	"github.com/starkandwayne/eve/mapping"
+	"github.com/starkandwayne/eve/operator"
 )
 
 // ValuesOpts represents the 'values' command
@@ -24,11 +27,16 @@ func (c ValuesOpts) Execute(_ []string) (err error) {
 		fmt.Fprintf(os.Stderr, "Mapping Set: %#v\n", set)
 	}
 
-	if Opts.Target == "" {
-		fmt.Println("{}")
-	} else {
-		fmt.Println("{}")
+	ops := operator.NewOperatorOutput(Opts.Target)
+	values, err := set.LoadValues(ops)
+	if err != nil {
+		return
 	}
+	data, err := yaml.Marshal(values.ValuesByName)
+	if err != nil {
+		return
+	}
+	fmt.Println(string(data[:]))
 
 	return nil
 }

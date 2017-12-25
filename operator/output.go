@@ -5,8 +5,10 @@ import "gopkg.in/yaml.v2"
 // Output describes the output file containing a set of Operators
 type Output struct {
 	TargetPath string
-	Operators  []OpDefinition
+	Operators  OpDefinitions
 }
+
+type OpDefinitions []OpDefinition
 
 // OpDefinition struct is useful for YAML unmarshaling
 type OpDefinition struct {

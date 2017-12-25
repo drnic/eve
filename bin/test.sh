@@ -11,26 +11,35 @@ go test -v ./...
 mkdir -p tmp
 rm -rf tmp/bosh-scaling-operator.yml
 
-echo "convert to local file"
+# spruce where `spruce diff` returns exit 1 if there are diffs
+export PATH=/Users/drnic/Projects/gopath/src/github.com/geofffranks/spruce:$PATH
+
+echo "> convert to local file"
 go run main.go convert \
   --mapping fixtures/bosh-scaling/mapping.yml \
   --inputs 'workers-linux-instances:5' \
   --inputs 'workers-linux-instance-type:m4.xlarge' \
   --target tmp/bosh-scaling-operator.yml
-echo "load values from existing operator file"
+cat tmp/bosh-scaling-operator.yml
+echo
+
+echo "> load values from existing operator file"
 values=$(go run main.go values \
   --mapping fixtures/bosh-scaling/mapping.yml \
   --target tmp/bosh-scaling-operator.yml)
 expected='{"workers-linux-instances": "5", "workers-linux-instance-type": "m4.xlarge"}'
+echo "$values"
 spruce diff <(echo "$expected") <(echo "$values")
 
-echo "convert to stdout"
+rm -rf tmp/bosh-scaling-operator.yml
+
+echo "> convert to stdout"
 go run main.go convert \
   --mapping fixtures/bosh-scaling/mapping.yml \
   --inputs 'workers-linux-instances:5' \
   --inputs 'workers-linux-instance-type:m4.xlarge'
 
-echo "pipe 'convert' to 'values'"
+echo "> pipe 'convert' to 'values'"
 values=$(go run main.go convert \
   --mapping fixtures/bosh-scaling/mapping.yml \
   --inputs 'workers-linux-instances:5' \

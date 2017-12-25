@@ -1,7 +1,9 @@
 package mapping
 
 import (
+	"fmt"
 	"io/ioutil"
+	"os"
 
 	"github.com/starkandwayne/eve/operator"
 
@@ -46,6 +48,23 @@ func NewMappingSet(path string) (set *Set, err error) {
 func (set *Set) GenerateOutput(inputs *Inputs, output *operator.Output) {
 	for _, mapping := range set.Mappings {
 		var value interface{} = inputs.ValueForFormName(mapping.FormName)
+		fmt.Fprintf(os.Stderr, "%s -> %v\n", mapping.OperatorPath, value)
 		output.AddOperator(mapping.OperatorPath, value)
 	}
+}
+
+// LoadValues pulls out values from Operator file based on mapping set
+func (set *Set) LoadValues(output *operator.Output) (values *Inputs, err error) {
+	if err = output.LoadValues(); err != nil {
+		return
+	}
+	values = NewInputs()
+	for _, mapping := range set.Mappings {
+		for _, op := range output.Operators {
+			if op.Path == mapping.OperatorPath {
+				values.ValuesByName[mapping.FormName] = op.Value.(string)
+			}
+		}
+	}
+	return
 }
