@@ -13,6 +13,7 @@ type EveOpts struct {
 	Target  string            `short:"t" long:"target" description:"Path to Operator file to create"`
 
 	Convert ConvertOpts `command:"convert" description:"Convert form values to Operator file"`
+	Values  ValuesOpts  `command:"values" description:"Retrieve form values from Operator file"`
 }
 
 // Opts carries all the user provided options (from flags or env vars)
