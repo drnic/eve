@@ -20,6 +20,17 @@ Prints to stdout:
   value: m4.xlarge
 ```
 
+Or to write to a file:
+
+```bash
+$ eve convert \
+  --mapping fixtures/bosh-scaling/mapping.yml \
+  --inputs 'workers-linux-instances:5' \
+  --inputs 'workers-linux-instance-type:m4.xlarge' \
+  --target tmp/bosh-scaling-operator.yml
+```
+
+
 This repo is an initial experiment in generating a Web UI to allow lay people to modify a YAML-based deployment (e.g. Kubernetes, BOSH deploy, or BOSH env). They make changes, press "Apply", and eventually the deployment is modified.
 
 The intermediate stage after user changes in the UI is a BOSH operator file ([go-patch](https://github.com/cppforlife/go-patch)) which is subsequently applied to a `bosh deploy base.yml -o ui.yml` or `bosh create-env base.yml -o ui.yml` command which is triggered by a CI system. 

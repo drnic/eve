@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"io/ioutil"
 
 	"github.com/starkandwayne/eve/mapping"
 	"github.com/starkandwayne/eve/operator"
@@ -32,7 +33,14 @@ func (c ConvertOpts) Execute(_ []string) (err error) {
 		fmt.Printf("OperatorOutput: %#v\n", output)
 	}
 
-	fmt.Println(output)
+	if Opts.Target == "" {
+		fmt.Println(output)
+	} else {
+		var data []byte = []byte(output.String())
+		if err = ioutil.WriteFile(Opts.Target, data, 0600); err != nil {
+			return
+		}
+	}
 
 	return nil
 }
