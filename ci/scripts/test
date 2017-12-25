@@ -8,7 +8,9 @@ cd ${GOPATH}/src/${MODULE}
 
 
 go version; echo; echo
-go vet $(go list ./... | grep -v vendor)
-go test -v ./...
-
-[[ -x bin/test.sh ]] && { bin/test.sh; }
+if [[ -x bin/test.sh ]]; then
+  bin/test.sh
+else
+  go vet $(go list ./... | grep -v vendor)
+  go test -v ./...
+fi

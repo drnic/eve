@@ -5,6 +5,9 @@ cd $ROOT
 
 set -eu
 
+go vet $(go list ./... | grep -v vendor)
+go test -v ./...
+
 mkdir -p tmp
 rm -rf tmp/bosh-scaling-operator.yml
 
