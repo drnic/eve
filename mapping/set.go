@@ -62,7 +62,7 @@ func (set *Set) LoadValues(output *operator.Output) (values *Inputs, err error) 
 	for _, mapping := range set.Mappings {
 		for _, op := range output.Operators {
 			if op.Path == mapping.OperatorPath {
-				values.ValuesByName[mapping.FormName] = op.Value.(string)
+				values.ValuesByName[mapping.FormName] = op.Value
 			}
 		}
 	}
