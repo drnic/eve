@@ -1,5 +1,7 @@
 # Eve
 
+**NOTE:** I think this oversolves the problem. Instead of creating + reading go-patch operator files, why not just assume there are operator files with simple flat YAML variable files; and then web UI can easily read + write to those without a fancy additional CLI.
+
 Create your own lovel web UIs for YAML-based deployments, such as BOSH, Kubernetes, and Cloud Foundry.
 
 ```bash
